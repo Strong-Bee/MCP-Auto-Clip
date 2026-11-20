@@ -300,6 +300,8 @@ export class MCPToolGuard {
     this.allowedTools.add('list_videos');
     this.allowedTools.add('get_video_info');
     this.allowedTools.add('get_queue_stats');
+    this.allowedTools.add('get_settings');
+    this.allowedTools.add('update_setting');
   }
 
   allowTool(toolName: string): void {

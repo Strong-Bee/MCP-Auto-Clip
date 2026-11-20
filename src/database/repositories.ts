@@ -582,8 +582,10 @@ export const qualityCheckRepository = new Proxy({} as QualityCheckRepository, {
   },
 });
 
-export const settingsRepository = new Proxy({} as SettingsRepository, {
-  get(target, prop) {
-    return getSettingsRepository()[prop as keyof SettingsRepository];
-  },
-});
+// SettingsRepository - export directly (not via Proxy) to preserve 'this' binding
+let _settingsRepositoryInstance: SettingsRepository | null = null;
+export const settingsRepository = {
+  get getAll() { return getSettingsRepository().getAll.bind(getSettingsRepository()); },
+  get get() { return getSettingsRepository().get.bind(getSettingsRepository()); },
+  get set() { return getSettingsRepository().set.bind(getSettingsRepository()); },
+} as SettingsRepository;
