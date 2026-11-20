@@ -155,7 +155,7 @@ export interface JobConfig {
 }
 
 export interface AIProviderConfig {
-  provider: 'openai' | 'anthropic' | 'google' | 'local';
+  provider: 'openai' | 'anthropic' | 'google' | 'nvidia' | 'local';
   model: string;
   apiKey?: string;
   baseUrl?: string;

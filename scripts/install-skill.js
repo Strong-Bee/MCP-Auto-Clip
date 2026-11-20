@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-const SKILL_SOURCE = path.join(__dirname, '..', 'skills', 'auto-clipper');
+const SKILL_SOURCE = path.resolve(__dirname, '..', 'skills', 'auto-clipper');
 const CLAUDE_SKILLS_DIR = path.join(os.homedir(), '.claude', 'skills', 'auto-clipper');
 const OPENCODE_SKILLS_DIR = path.join(os.homedir(), '.opencode', 'skill', 'auto-clipper');
 
@@ -143,13 +143,17 @@ async function main() {
     console.log('  1. Ensure MCP Auto Clipper server is running');
     console.log('  2. Configure MCP in your agent settings');
     console.log('  3. Use /auto-clipper commands or natural language');
+
+    const projectRoot = path.resolve(__dirname, '..');
+    const indexPath = path.join(projectRoot, 'build', 'index.js');
+
     console.log('\nMCP Server config example:');
     console.log('  {');
     console.log('    "mcpServers": {');
     console.log('      "auto-clipper": {');
     console.log('        "command": "node",');
-    console.log(`        "args": ["${path.join(__dirname, '..', 'build', 'index.js')}", "mcp"],`);
-    console.log(`        "cwd": "${path.join(__dirname, '..')}"`);
+    console.log(`        "args": ["${indexPath.replace(/\\/g, '\\\\')}", "mcp"],`);
+    console.log(`        "cwd": "${projectRoot.replace(/\\/g, '\\\\')}"`);
     console.log('      }');
     console.log('    }');
     console.log('  }');
