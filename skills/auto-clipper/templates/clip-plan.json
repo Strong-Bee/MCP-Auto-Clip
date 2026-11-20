@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Clip Plan",
+  "type": "object",
+  "properties": {
+    "jobId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Parent job ID"
+    },
+    "videoId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Source video ID"
+    },
+    "highlights": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "startTime": { "type": "number", "minimum": 0 },
+          "endTime": { "type": "number", "minimum": 0 },
+          "score": { "type": "number", "minimum": 0, "maximum": 1 },
+          "reason": { "type": "string" },
+          "keywords": { "type": "array", "items": { "type": "string" } },
+          "transcriptSegmentIds": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["id", "startTime", "endTime", "score", "reason"]
+      }
+    },
+    "clips": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "highlightId": { "type": "string", "format": "uuid" },
+          "startTime": { "type": "number", "minimum": 0 },
+          "endTime": { "type": "number", "minimum": 0 },
+          "duration": { "type": "number", "minimum": 0 },
+          "subtitlePath": { "type": "string" },
+          "outputPath": { "type": "string" },
+          "status": { "type": "string", "enum": ["pending", "rendering", "completed", "failed"] },
+          "retryCount": { "type": "integer", "minimum": 0 },
+          "viralScore": { "type": "number", "minimum": 0, "maximum": 1 },
+          "metadata": { "type": "object" }
+        },
+        "required": ["id", "highlightId", "startTime", "endTime", "duration", "status"]
+      }
+    },
+    "totalDuration": { "type": "number" },
+    "estimatedRenderTime": { "type": "number" },
+    "createdAt": { "type": "string", "format": "date-time" }
+  },
+  "required": ["jobId", "videoId", "highlights", "clips", "totalDuration", "estimatedRenderTime"]
+}

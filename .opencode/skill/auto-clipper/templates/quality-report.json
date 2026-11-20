@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Quality Check Report",
+  "type": "object",
+  "properties": {
+    "clipId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "jobId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "checkedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "passed": {
+      "type": "boolean"
+    },
+    "overallScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["video", "audio", "format", "sync", "file"]
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"]
+          },
+          "message": { "type": "string" },
+          "timestamp": { "type": "number" },
+          "autoFixable": { "type": "boolean" },
+          "autoFixed": { "type": "boolean" },
+          "fixApplied": { "type": "string" }
+        },
+        "required": ["type", "severity", "message", "autoFixable"]
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "videoBitrate": { "type": "integer" },
+        "audioBitrate": { "type": "integer" },
+        "resolution": {
+          "type": "object",
+          "properties": {
+            "width": { "type": "integer" },
+            "height": { "type": "integer" }
+          }
+        },
+        "aspectRatio": { "type": "string" },
+        "duration": { "type": "number" },
+        "subtitleSyncOffset": { "type": "number" },
+        "audioLoudness": { "type": "number" },
+        "videoQualityScore": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "checks": {
+      "type": "object",
+      "properties": {
+        "fileExists": { "type": "boolean" },
+        "videoReadable": { "type": "boolean" },
+        "durationMatch": { "type": "boolean" },
+        "resolutionCorrect": { "type": "boolean" },
+        "aspectRatioCorrect": { "type": "boolean" },
+        "minResolutionMet": { "type": "boolean" },
+        "bitrateAdequate": { "type": "boolean" },
+        "audioPresent": { "type": "boolean" },
+        "audioQuality": { "type": "boolean" },
+        "fileSizeOk": { "type": "boolean" },
+        "codecCompatible": { "type": "boolean" },
+        "frameRateOk": { "type": "boolean" },
+        "subtitleSyncOk": { "type": "boolean" }
+      }
+    },
+    "retryCount": { "type": "integer", "minimum": 0 },
+    "maxRetries": { "type": "integer", "minimum": 0 },
+    "finalStatus": {
+      "type": "string",
+      "enum": ["passed", "failed", "passed_after_retry", "manual_review_required"]
+    }
+  },
+  "required": ["clipId", "jobId", "checkedAt", "passed", "overallScore", "issues", "metrics", "checks", "finalStatus"]
+}
